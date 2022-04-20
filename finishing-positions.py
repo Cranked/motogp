@@ -25,7 +25,7 @@ def get_content(url):
             t = rider.findNext("span", attrs={"class", "surname qa_table_rider_surname"})
             rider_list.append(t.text.strip())
 
-        countries = source.find_all("td", attrs={"class", "table_item nation qa_table_rider_nation"})
+        countries = source.find_all("td", attrs={"class", "table_item nation qa_table_rider_nation d-table-cell"})
         for country in countries:
             t = country.findNext("span", attrs={"class", "country"})
             country_list.append(t.text.strip())
