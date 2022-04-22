@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
+import config
 
 season_list = []
 rider_list = []
@@ -10,12 +11,14 @@ circuit_list = []
 constructor_list = []
 class_list = []
 
+api_token = config.APİ_TOKEN
+
 col_list = ['Season', 'Rider', 'Country', 'Constructor', 'Class']
 df = pd.DataFrame(columns=col_list)
 
 
-def get_content(url):
-    payload = {'api_key': 'a7fe435fe6d3bf081fbca6c9ac63f470', 'url': url, 'render': 'true'}
+def get_content(url,api_token):
+    payload = {'api_key': api_token, 'url': url, 'render': 'true'}
 
     r = requests.get('http://api.scraperapi.com', params=payload)
     code = r.status_code
@@ -50,9 +53,9 @@ def get_content(url):
 for i in range(1, 15):
     base_url = "https://www.motogp.com/en/statistics/wc-winners/All-seasons/All-classes/All-countries/?page=" + str(
         i)
-    if not get_content(base_url):
-       get_content(base_url)
-       i=i-1
+    if not get_content(base_url,api_token):
+        get_content(base_url,api_token)
+        i = i - 1
     else:
         print(i)
     df = pd.DataFrame(zip(season_list, rider_list, country_list, constructor_list, class_list), columns=col_list)
